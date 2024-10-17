@@ -1,15 +1,13 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.27;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.26;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
 
-contract Lock {
+contract E7OVPAY {
     uint public unlockTime;
     address payable public owner;
 
     event Withdrawal(uint amount, uint when);
-
+    event Payment(uint amount, uint when);
     constructor(uint _unlockTime) payable {
         require(
             block.timestamp < _unlockTime,
@@ -21,8 +19,7 @@ contract Lock {
     }
 
     function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+       
 
         require(block.timestamp >= unlockTime, "You can't withdraw yet");
         require(msg.sender == owner, "You aren't the owner");
@@ -31,4 +28,16 @@ contract Lock {
 
         owner.transfer(address(this).balance);
     }
+
+    function payment() public payable {
+        require(msg.value >= 0.001 ether, "Payment should be at least 0.001 ether");
+        
+        emit Payment(msg.value, block.timestamp);
+    }
+
+    function getBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+
 }
+

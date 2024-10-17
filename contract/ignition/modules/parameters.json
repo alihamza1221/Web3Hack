@@ -1,5 +1,6 @@
 {
-  "LockModule": {
-    "lockDuration": 2592000
+  "E7OVPAYModule": {
+    "lockDuration": "31536000",
+    "lockAmount": "0n"
   }
 }
